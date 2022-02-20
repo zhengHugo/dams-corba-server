@@ -1,13 +1,13 @@
 package impl;
 
 
-import appointment.AppointmentType;
-import patient.PatientPOA;
+import cobar_entity.appointment.AppointmentTypeDto;
+import cobar_entity.patient.PatientPOA;
 
 public class PatientImpl extends PatientPOA {
 
   @Override
-  public boolean bookAppointment(String patientId, AppointmentType type, String appointmentId) {
+  public boolean bookAppointment(String patientId, AppointmentTypeDto type, String appointmentId) {
     return false;
   }
 
@@ -17,13 +17,14 @@ public class PatientImpl extends PatientPOA {
   }
 
   @Override
-  public boolean cancelAppointment(String patientId, AppointmentType type, String appointmentId) {
+  public boolean cancelAppointment(String patientId, AppointmentTypeDto type,
+      String appointmentId) {
     return false;
   }
 
   @Override
-  public boolean swapAppointment(String patientId, AppointmentType oldType, String oldAppointmentId,
-      AppointmentType newType, String newAppointmentId) {
+  public boolean swapAppointment(String patientId, AppointmentTypeDto oldType,
+      String oldAppointmentId, AppointmentTypeDto newType, String newAppointmentId) {
     return false;
   }
 }

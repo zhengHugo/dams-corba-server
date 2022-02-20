@@ -1,6 +1,8 @@
 import HelloApp.Hello;
 import HelloApp.HelloHelper;
-import impl.HelloImpl;
+import cobar_entity.admin.Admin;
+import cobar_entity.admin.AdminHelper;
+import impl.AdminImpl;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CosNaming.NameComponent;
@@ -20,18 +22,25 @@ public class Server {
       POA rootPoa = (POA) orb.resolve_initial_references("RootPOA");
       rootPoa.the_POAManager().activate();
 
-      HelloImpl helloImpl = new HelloImpl();
-      helloImpl.setOrb(orb);
+//      HelloImpl helloImpl = new HelloImpl();
+//      helloImpl.setOrb(orb);
 
-      org.omg.CORBA.Object ref = rootPoa.servant_to_reference(helloImpl);
-      Hello href = HelloHelper.narrow(ref);
-      org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-      NamingContextExt namingContextRef = NamingContextExtHelper.narrow(objRef);
+      AdminImpl adminImpl = new AdminImpl();
+      adminImpl.setOrb(orb);
 
-      String name = "Hello";
+
+//      org.omg.CORBA.Object ref = rootPoa.servant_to_reference(helloImpl);
+//      Hello href = HelloHelper.narrow(ref);
+      org.omg.CORBA.Object ref = rootPoa.servant_to_reference(adminImpl);
+      Admin admin = AdminHelper.narrow(ref);
+
+      org.omg.CORBA.Object nameService = orb.resolve_initial_references("NameService");
+      NamingContextExt namingContextRef = NamingContextExtHelper.narrow(nameService);
+
+      String name = "Admin";
       NameComponent[] path = namingContextRef.to_name(name);
 
-      namingContextRef.rebind(path, href);
+      namingContextRef.rebind(path, admin);
 
       System.out.println("HelloServer ready and waiting...");
 

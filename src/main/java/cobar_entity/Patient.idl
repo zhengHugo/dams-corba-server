@@ -1,0 +1,66 @@
+module appointment {
+  enum AppointmentTypeDto {
+     Physician,
+     Surgeon,
+     Dental
+  };
+
+  struct AppointmentDto {
+    string id;
+    long capacity;
+    sequence<string> patientIds;
+    AppointmentTypeDto type;
+  };
+
+  struct AppointmentAvailabilityDto {
+    string appointmentId;
+    long availability;
+  };
+};
+
+module patient {
+  interface Patient {
+    boolean bookAppointment(
+        in string patientId,
+        in appointment::AppointmentTypeDto type,
+        in string appointmentId
+    );
+
+    string getAppointmentSchedule(in string patientId);
+
+    boolean cancelAppointment(
+        in string patientId,
+        in appointment::AppointmentTypeDto type,
+        in string appointmentId
+    );
+
+    boolean swapAppointment(
+        in string patientId,
+        in appointment::AppointmentTypeDto oldType,
+        in string oldAppointmentId,
+        in appointment::AppointmentTypeDto newType,
+        in string newAppointmentId
+    );
+  };
+};
+
+module admin {
+  interface Admin {
+    boolean addAppointment(
+        in string appointmentId,
+        in appointment::AppointmentTypeDto type,
+        in long capacity
+    );
+
+    string removeAppointment(
+        in string appointmentId,
+        in appointment::AppointmentTypeDto type
+    );
+
+    string listAppointmentAvailability(
+        in appointment::AppointmentTypeDto type
+    );
+  };
+};
+
+
