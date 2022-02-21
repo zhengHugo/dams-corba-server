@@ -46,6 +46,7 @@ public class PatientImpl extends PatientPOA {
     AppointmentId appointmentId = new AppointmentId(appointmentIdStr);
     Patient patientRemote = null;
 
+    // init remote client
     ORB orb = ORB.init();
     try {
       org.omg.CORBA.Object nameService = orb.resolve_initial_references("NameService");
@@ -230,11 +231,32 @@ public class PatientImpl extends PatientPOA {
 
   @Override
   public boolean swapAppointment(
-      String patientId,
+      String patientIdStr,
       AppointmentTypeDto oldType,
       String oldAppointmentId,
       AppointmentTypeDto newType,
       String newAppointmentId) {
-    return false;
+    if (cancelAppointment(patientIdStr, oldType, oldAppointmentId)) {
+      if (bookAppointment(patientIdStr, newType, newAppointmentId)) {
+        logger.info(
+            String.format(
+                "Swapped appointment for %s: from %s - %s to %s - %s",
+                patientIdStr, oldType, oldAppointmentId, newType, newAppointmentId));
+        return true;
+      } else {
+        logger.info(
+            String.format(
+                "Cannot book new appointment for %s: %s - %s. Swap not proceeded",
+                patientIdStr, newType, newAppointmentId));
+        bookAppointment(patientIdStr, oldType, oldAppointmentId);
+        return false;
+      }
+    } else {
+      logger.info(
+          String.format(
+              "Cannot cancel old appointment for %s: %s - %s. Swap not proceeded",
+              patientIdStr, oldType, oldAppointmentId));
+      return false;
+    }
   }
 }
