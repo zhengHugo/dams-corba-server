@@ -87,7 +87,7 @@ public class PatientImpl extends PatientPOA {
     } else {
       // call bookLocalAppointment at the city according to the appointment
       // check the 3 times/week booking limit first
-      DateTimeFormatter formatter = DateTimeFormat.forPattern("ddMMyyyy");
+      DateTimeFormatter formatter = DateTimeFormat.forPattern("ddMMyy");
       int thisWeek = DateTime.parse(appointmentId.getDateString(), formatter).getWeekOfWeekyear();
       assert patientRemote != null;
       long allAppsInThisWeekCount =
