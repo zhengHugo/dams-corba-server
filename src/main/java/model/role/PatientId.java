@@ -12,6 +12,11 @@ public class PatientId implements ClientId {
     this.number = number;
   }
 
+  public PatientId(String idString) {
+    this.city = City.fromCode(idString.substring(0, 3));
+    this.number = Integer.parseInt(idString.substring(4));
+  }
+
   public String getId() {
     return city.code + "P" + number;
   }

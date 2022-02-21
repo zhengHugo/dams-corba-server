@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import model.role.PatientId;
 
-public class Appointment implements Serializable {
+public class Appointment {
   private final AppointmentId appointmentId;
   private final int capacity;
   private final ArrayList<PatientId> patientIds;

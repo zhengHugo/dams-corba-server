@@ -26,7 +26,15 @@ module patient {
         in string appointmentId
     );
 
+    boolean bookLocalAppointment(
+        in string patientId,
+        in appointment::AppointmentTypeDto type,
+        in string appointmentId
+    );
+
     string getAppointmentSchedule(in string patientId);
+
+    string getLocalAppointmentSchedule(in string patientId);
 
     boolean cancelAppointment(
         in string patientId,
@@ -58,6 +66,10 @@ module admin {
     );
 
     string listAppointmentAvailability(
+        in appointment::AppointmentTypeDto type
+    );
+
+    string listLocalAppointmentAvailability(
         in appointment::AppointmentTypeDto type
     );
   };

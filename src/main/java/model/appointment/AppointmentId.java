@@ -3,7 +3,7 @@ package model.appointment;
 import java.io.Serializable;
 import model.common.City;
 
-public class AppointmentId implements Serializable, Comparable<AppointmentId> {
+public class AppointmentId implements Comparable<AppointmentId> {
   private final City city;
   private final AppointmentTime time;
   private final String dateString;
