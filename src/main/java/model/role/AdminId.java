@@ -12,6 +12,11 @@ public class AdminId implements ClientId {
     this.code = code;
   }
 
+  public AdminId(String idString) {
+    this.city = City.fromCode(idString.substring(0, 3));
+    this.code = Integer.parseInt(idString.substring(4));
+  }
+
   public String getId() {
     return city.code + "A" + code;
   }

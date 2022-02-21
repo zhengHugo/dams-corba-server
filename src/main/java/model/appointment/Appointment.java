@@ -1,6 +1,5 @@
 package model.appointment;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import model.role.PatientId;

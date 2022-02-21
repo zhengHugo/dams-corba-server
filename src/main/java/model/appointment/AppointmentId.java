@@ -1,6 +1,5 @@
 package model.appointment;
 
-import java.io.Serializable;
 import model.common.City;
 
 public class AppointmentId implements Comparable<AppointmentId> {

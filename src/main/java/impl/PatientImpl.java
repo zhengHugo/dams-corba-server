@@ -37,6 +37,12 @@ public class PatientImpl extends PatientPOA {
   private final Gson gson = new Gson();
   private final Type appointmentListType = new TypeToken<List<Appointment>>() {}.getType();
 
+  private final ORB orb;
+
+  public PatientImpl(ORB orb) {
+    this.orb = orb;
+  }
+
   @Override
   public synchronized boolean bookAppointment(
       String patientIdStr, AppointmentTypeDto typeDto, String appointmentIdStr) {
@@ -47,7 +53,6 @@ public class PatientImpl extends PatientPOA {
     Patient patientRemote = null;
 
     // init remote client
-    ORB orb = ORB.init();
     try {
       org.omg.CORBA.Object nameService = orb.resolve_initial_references("NameService");
       NamingContextExt namingContextExt = NamingContextExtHelper.narrow(nameService);
@@ -151,7 +156,6 @@ public class PatientImpl extends PatientPOA {
 
   @Override
   public String getAppointmentSchedule(String patientIdStr) {
-    ORB orb = ORB.init();
     Patient patientRemote1 = null;
     Patient patientRemote2 = null;
 

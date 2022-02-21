@@ -38,7 +38,10 @@ public class AdminImpl extends AdminPOA {
   private final Type appointmentAvailabilityListType =
       new TypeToken<List<AppointmentAvailability>>() {}.getType();
 
-  public void setOrb(ORB orb) {
+  private final ORB orb;
+
+  public AdminImpl(ORB orb) {
+    this.orb = orb;
   }
 
   @Override
@@ -83,7 +86,6 @@ public class AdminImpl extends AdminPOA {
 
   @Override
   public String listAppointmentAvailability(AppointmentTypeDto typeDto) {
-    ORB orb = ORB.init();
     Admin adminRemote1 = null;
     Admin adminRemote2 = null;
 

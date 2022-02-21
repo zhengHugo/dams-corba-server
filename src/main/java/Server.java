@@ -1,5 +1,3 @@
-import HelloApp.Hello;
-import HelloApp.HelloHelper;
 import cobar_entity.admin.Admin;
 import cobar_entity.admin.AdminHelper;
 import cobar_entity.patient.Patient;
@@ -28,13 +26,13 @@ public class Server {
       org.omg.CORBA.Object nameService = orb.resolve_initial_references("NameService");
       NamingContextExt namingContextRef = NamingContextExtHelper.narrow(nameService);
 
-      AdminImpl adminImpl = new AdminImpl();
+      AdminImpl adminImpl = new AdminImpl(orb);
       org.omg.CORBA.Object adminRef = rootPoa.servant_to_reference(adminImpl);
       Admin admin = AdminHelper.narrow(adminRef);
       namingContextRef.rebind(
           namingContextRef.to_name("Admin" + GlobalConstants.thisCity.code), admin);
 
-      PatientImpl patientImpl = new PatientImpl();
+      PatientImpl patientImpl = new PatientImpl(orb);
       org.omg.CORBA.Object patientRef = rootPoa.servant_to_reference(patientImpl);
       Patient patient = PatientHelper.narrow(patientRef);
       namingContextRef.rebind(
