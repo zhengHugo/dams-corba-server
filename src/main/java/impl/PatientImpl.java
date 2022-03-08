@@ -209,7 +209,7 @@ public class PatientImpl extends PatientPOA {
       String patientIdStr, AppointmentTypeDto type, String appointmentIdStr) {
     AppointmentId appointmentId = new AppointmentId(appointmentIdStr);
     if (appointmentId.getCity().equals(GlobalConstants.thisCity)) {
-      cancelLocalAppointment(patientIdStr, type, appointmentIdStr);
+      return cancelLocalAppointment(patientIdStr, type, appointmentIdStr);
     } else {
       Patient patientRemote;
       try {
