@@ -42,6 +42,12 @@ module patient {
         in string appointmentId
     );
 
+    boolean cancelLocalAppointment(
+        in string patientId,
+        in appointment::AppointmentTypeDto type,
+        in string appointmentId
+    );
+
     boolean swapAppointment(
         in string patientId,
         in appointment::AppointmentTypeDto oldType,

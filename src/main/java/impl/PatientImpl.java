@@ -205,7 +205,44 @@ public class PatientImpl extends PatientPOA {
   }
 
   @Override
-  public synchronized boolean cancelAppointment(
+  public boolean cancelAppointment(
+      String patientIdStr, AppointmentTypeDto type, String appointmentIdStr) {
+    AppointmentId appointmentId = new AppointmentId(appointmentIdStr);
+    if (appointmentId.getCity().equals(GlobalConstants.thisCity)) {
+      cancelLocalAppointment(patientIdStr, type, appointmentIdStr);
+    } else {
+      Patient patientRemote;
+      try {
+        org.omg.CORBA.Object nameService = orb.resolve_initial_references("NameService");
+        NamingContextExt namingContextExt = NamingContextExtHelper.narrow(nameService);
+        patientRemote =
+            PatientHelper.narrow(
+                namingContextExt.resolve_str("Patient" + appointmentId.getCity().code));
+        if (patientRemote.cancelLocalAppointment(patientIdStr, type, appointmentIdStr)) {
+          logger.info(
+              String.format(
+                  "Cancel appointment success: %s, %s - %s", patientIdStr, type, appointmentId));
+          return true;
+        } else {
+          logger.info(
+              String.format(
+                  "The patient %s doesn't have an appointment with %s - %s",
+                  patientIdStr, type, appointmentId));
+          return false;
+        }
+      } catch (InvalidName
+          | org.omg.CosNaming.NamingContextPackage.InvalidName
+          | CannotProceed
+          | NotFound e) {
+        e.printStackTrace();
+      }
+
+    }
+    return false;
+  }
+
+  @Override
+  public synchronized boolean cancelLocalAppointment(
       String patientIdStr, AppointmentTypeDto typeDto, String appointmentIdStr) {
     AppointmentId appointmentId = new AppointmentId(appointmentIdStr);
     AppointmentType type = AppointmentType.getByInt(typeDto.value());
